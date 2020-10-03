@@ -21,6 +21,6 @@ public class UserController {
     public String listUsers(Model model) {
         List<User> userList = userService.getUsers();
         model.addAttribute("usersForTable", userList);
-        return "tablelist";
+        return "users-table";
     }
 }

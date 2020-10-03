@@ -11,7 +11,7 @@ public class SpringMVCDispatcherServletInitializer
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{UserTrackerConfig.class};
+        return new Class[]{UserWebTrackerConfig.class};
     }
 
     @Override
