@@ -23,7 +23,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        entityManager.persist(user);
+        entityManager.merge(user);
     }
 
     @Override
@@ -39,12 +39,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> searchUsers(String theSearchName) {
-        TypedQuery<User> userQuery = null;
+        TypedQuery<User> userQuery;
         if (theSearchName != null && theSearchName.trim().length() > 0) {
             userQuery =
                     entityManager.createQuery("select user from users_db as user " +
-                            "where lower(user.firstName) like :theUserName or " +
-                            "lower(user.lastName) like :theUserName", User.class);
+                                    "where lower(user.firstName) like :theUserName or " +
+                                    "lower(user.lastName) like :theUserName",
+                            User.class);
             userQuery.setParameter("theUserName", theSearchName.toLowerCase());
         } else {
             userQuery = entityManager.createQuery("select user from users_db as user", User.class);

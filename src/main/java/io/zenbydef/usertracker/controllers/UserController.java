@@ -7,9 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
+@Transactional
 @RequestMapping("/users")
 public class UserController {
 
@@ -37,16 +39,16 @@ public class UserController {
         return "redirect:/users/list";
     }
 
-    @GetMapping("/updateuser")
+    @PostMapping("/updateuser")
     public String showFormForUpdate(
             @RequestParam("userId") int userId,
             Model model) {
         User user = userService.getUserById(userId);
-        model.addAttribute("userForUpdate", user);
+        model.addAttribute("user", user);
         return "user-form";
     }
 
-    @GetMapping("/deleteuser")
+    @PostMapping("/deleteuser")
     public String deleteUser(@RequestParam("userId") int userId) {
         userService.deleteUser(userId);
         return "redirect:/users/list";
