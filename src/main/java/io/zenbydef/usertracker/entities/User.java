@@ -13,25 +13,31 @@ public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "login")
+    @Column(name = "login", length = 45)
     private String login;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", length = 45)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 45)
     private String lastName;
 
     public User() {
     }
 
-    public Long getId() {
+    public User(String login, String firstName, String lastName) {
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

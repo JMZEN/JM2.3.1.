@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users Table</title>
 </head>
 <body>
-<h3 th:text="Users Table"></h3>
+<h3>User's Table</h3>
 
 <table>
     <thead>
@@ -17,10 +17,18 @@
     </tr>
     </thead>
 
-    <tbody th:each="tempUser : ${usersForTable}">
-
+    <tbody>
+    <tr th:each="tempUser : ${usersForTable}">
+        <td th:text="${tempUser.getLogin()}"></td>
+        <td th:text="${tempUser.getFirstName()}"></td>
+        <td th:text="${tempUser.getLastName()}"></td>
+    </tr>
     </tbody>
 </table>
+
+<p>
+    <a th:href="@{/users/adduser}">New User</a>
+</p>
 
 </body>
 </html>
