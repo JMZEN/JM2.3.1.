@@ -5,10 +5,7 @@ import io.zenbydef.usertracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +35,29 @@ public class UserController {
     public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/users/list";
+    }
+
+    @GetMapping("/updateuser")
+    public String showFormForUpdate(
+            @RequestParam("userId") int userId,
+            Model model) {
+        User user = userService.getUserById(userId);
+        model.addAttribute("userForUpdate", user);
+        return "user-form";
+    }
+
+    @GetMapping("/deleteuser")
+    public String deleteUser(@RequestParam("userId") int userId) {
+        userService.deleteUser(userId);
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/searchuser")
+    public String searchUser(
+            @RequestParam("theSearchName") String theSearchName,
+            Model model) {
+        List<User> userList = userService.searchUsers(theSearchName);
+        model.addAttribute("users", userList);
+        return "users-table";
     }
 }
