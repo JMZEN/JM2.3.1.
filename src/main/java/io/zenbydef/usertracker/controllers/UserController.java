@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -58,8 +59,13 @@ public class UserController {
     public String searchUser(
             @RequestParam("theSearchName") String theSearchName,
             Model model) {
-        List<User> userList = userService.searchUsers(theSearchName);
+        List<User> userList;
+        if (theSearchName == null) {
+            userList = new ArrayList<>();
+        } else {
+            userList = userService.searchUsers(theSearchName);
+        }
         model.addAttribute("users", userList);
-        return "users-table";
+        return "user-search-table";
     }
 }

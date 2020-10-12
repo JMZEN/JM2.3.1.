@@ -3,29 +3,11 @@
       xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Users Table</title>
+    <title>Title</title>
 </head>
 <body>
-<h3>User's Table</h3>
-
-<p>
-<form action="#"
-      th:action="@{/users/searchuser}"
-      th:object="${#lists}"
-      method="get">
-    Filter: <label>
-    <input type="text" name="theSearchName" size="20"/>
-</label>
-    <input type="submit" value="Search"/>
-</form>
-
-<a th:href="@{/users/adduser}">
-    <button>New User</button>
-</a>
-
-</p>
-
-<table>
+<h2>User Search Results</h2>
+<table th:if="${not #lists.isEmpty(users)}">
     <thead>
     <tr>
         <th>Login</th>
@@ -36,7 +18,7 @@
     </thead>
 
     <tbody>
-    <tr th:each="tempUser : ${usersForTable}">
+    <tr th:each="tempUser : ${users}">
         <td th:text="${tempUser.getLogin()}"></td>
         <td th:text="${tempUser.getFirstName()}"></td>
         <td th:text="${tempUser.getLastName()}"></td>
@@ -58,6 +40,27 @@
     </tr>
     </tbody>
 </table>
+
+<p th:if="${#lists.isEmpty(users)}">
+    No users found. Please try again:
+</p>
+
+<form action="#"
+      th:action="@{/users/searchuser}"
+      th:object="${#lists}"
+      method="get"
+      th:if="${#lists.isEmpty(users)}">
+    Filter: <label>
+    <input type="text" name="theSearchName" size="20"/>
+</label>
+    <input type="submit" value="Search"/>
+</form>
+
+<p>
+    <a th:href="@{/users/list}">
+        <button>Back to Users List</button>
+    </a>
+</p>
 
 </body>
 </html>

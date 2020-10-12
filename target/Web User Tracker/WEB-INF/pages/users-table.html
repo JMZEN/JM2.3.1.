@@ -9,8 +9,20 @@
 <h3>User's Table</h3>
 
 <p>
-    <input type="button" value="New User"
-           onclick="window.location.href='adduser'; return false"/>
+<form action="#"
+      th:action="@{/users/searchuser}"
+      th:object="${#lists}"
+      method="get">
+    Filter: <label>
+    <input type="text" name="theSearchName" size="20"/>
+</label>
+    <input type="submit" value="Search"/>
+</form>
+
+<a th:href="@{/users/adduser}">
+    <button>New User</button>
+</a>
+
 </p>
 
 <table>
