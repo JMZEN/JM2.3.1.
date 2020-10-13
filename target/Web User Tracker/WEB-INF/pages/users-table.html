@@ -8,22 +8,25 @@
 <body>
 <h3>User's Table</h3>
 
-<p>
+
 <form action="#"
       th:action="@{/users/searchuser}"
       th:object="${#lists}"
       method="get">
-    Filter: <label>
+    Search: <label>
     <input type="text" name="theSearchName" size="20"/>
 </label>
     <input type="submit" value="Search"/>
 </form>
 
+<br>
+
 <a th:href="@{/users/adduser}">
     <button>New User</button>
 </a>
 
-</p>
+<br>
+<br>
 
 <table>
     <thead>

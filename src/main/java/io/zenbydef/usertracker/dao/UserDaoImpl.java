@@ -47,25 +47,5 @@ public class UserDaoImpl implements UserDao {
         userQuery.setParameter("theUserName", '%' + theSearchName.toLowerCase() + '%');
 
         return userQuery.getResultList();
-
-
     }
-
-//    @Override
-//    public List<User> searchUsers(String theSearchName) {
-//        TypedQuery<User> userQuery;
-//        if (theSearchName != null && theSearchName.trim().length() > 0) {
-//            userQuery =
-//                    entityManager.createQuery("select user from users_db as user " +
-//                                    "where lower(user.firstName) like :theUserName or " +
-//                                    "lower(user.lastName) like :theUserName",
-//                            User.class);
-//            userQuery.setParameter("theUserName", '%' + theSearchName.toLowerCase() + '%');
-//        } else {
-//            userQuery = entityManager.createQuery("select user from users_db as user", User.class);
-//        }
-//        return userQuery.getResultList();
-//
-//
-//    }
 }

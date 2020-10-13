@@ -13,13 +13,19 @@
 
     <input type="hidden" th:field="*{id}">
     <input type="text" th:field="*{login}" placeholder="Login">
+    <br>
     <input type="text" th:field="*{firstName}" placeholder="firstName">
+    <br>
     <input type="text" th:field="*{lastName}" placeholder="lastName">
+    <br>
 
     <button type="submit">Save</button>
 </form>
 <hr>
-<a th:href="@{/users/list}">Back to Users List</a>
+
+<a th:href="@{/users/list}">
+    <button>Back to Users List</button>
+</a>
 
 </body>
 </html>
