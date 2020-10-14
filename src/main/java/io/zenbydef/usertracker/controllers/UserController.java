@@ -31,10 +31,11 @@ public class UserController {
     }
 
     @GetMapping("/adduser")
-    public String addUser(Model model) {
+    public ModelAndView addUser() {
         User user = new User();
-        model.addAttribute("user", user);
-        return "user-form";
+        ModelAndView modelAndView = new ModelAndView("user-form");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
     @PostMapping("/saveuser")
@@ -44,12 +45,12 @@ public class UserController {
     }
 
     @PostMapping("/updateuser")
-    public String showFormForUpdate(
-            @RequestParam("userId") int userId,
-            Model model) {
+    public ModelAndView showFormForUpdate(@RequestParam("userId") int userId) {
         User user = userService.getUserById(userId);
-        model.addAttribute("user", user);
-        return "user-form";
+
+        ModelAndView modelAndView = new ModelAndView("user-form");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
     @PostMapping("/deleteuser")
@@ -59,16 +60,15 @@ public class UserController {
     }
 
     @GetMapping("/searchuser")
-    public String searchUser(
-            @RequestParam("theSearchName") String theSearchName,
-            Model model) {
+    public ModelAndView searchUser(@RequestParam("theSearchName") String theSearchName) {
         List<User> userList;
         if (theSearchName == null) {
             userList = new ArrayList<>();
         } else {
             userList = userService.searchUsers(theSearchName);
         }
-        model.addAttribute("users", userList);
-        return "user-search-table";
+        ModelAndView modelAndView = new ModelAndView("user-search-table");
+        modelAndView.addObject("users", userList);
+        return modelAndView;
     }
 }
