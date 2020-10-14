@@ -5,7 +5,9 @@ import io.zenbydef.usertracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -20,11 +22,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public String listUsers(Model model) {
+    public ModelAndView listUsers() {
         List<User> userList = userService.getUsers();
 
-        model.addAttribute("usersForTable", userList);
-        return "users-table";
+        ModelAndView modelAndView = new ModelAndView("users-table");
+        modelAndView.addObject("usersForTable", userList);
+        return modelAndView;
     }
 
     @GetMapping("/adduser")
