@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -39,13 +40,16 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> searchUsers(String theSearchName) {
-        TypedQuery<User> userQuery =
-                entityManager.createQuery("select user from users_db as user " +
-                                "where lower(user.firstName) like :theUserName or " +
-                                "lower(user.lastName) like :theUserName",
-                        User.class);
-        userQuery.setParameter("theUserName", '%' + theSearchName.toLowerCase() + '%');
-
+        TypedQuery<User> userQuery;
+        if (theSearchName != null) {
+            userQuery = entityManager.createQuery("select user from users_db as user " +
+                            "where lower(user.firstName) like :theUserName or " +
+                            "lower(user.lastName) like :theUserName order by user.lastName",
+                    User.class);
+            userQuery.setParameter("theUserName", '%' + theSearchName.toLowerCase() + '%');
+        } else {
+            userQuery = entityManager.createQuery("select user from users_db as user order by user.lastName", User.class);
+        }
         return userQuery.getResultList();
     }
 }

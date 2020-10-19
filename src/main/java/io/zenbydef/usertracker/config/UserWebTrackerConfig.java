@@ -45,15 +45,10 @@ public class UserWebTrackerConfig implements WebMvcConfigurer {
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-    // Работа с персистентностью(Model)
     @Bean
     public DataSource dataSource() {
-        // Создаем DataSource
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        // Подключаем драйвер
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("jdbc.driver")));
-
-        // Задаем credentials для подключения к БД
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.user"));
         dataSource.setPassword(env.getProperty("jdbc.password"));
@@ -64,11 +59,8 @@ public class UserWebTrackerConfig implements WebMvcConfigurer {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
                 new LocalContainerEntityManagerFactoryBean();
-        // Устанаваливаем DataSource
         entityManagerFactoryBean.setDataSource(dataSource);
-        // Устанавливаем пакет для рекурсивного сканирования
         entityManagerFactoryBean.setPackagesToScan(env.getProperty("jpa.packagesToScan"));
-        // Уточнить
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactoryBean.setJpaProperties(getProperties());
 
