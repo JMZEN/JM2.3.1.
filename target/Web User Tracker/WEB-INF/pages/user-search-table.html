@@ -30,6 +30,10 @@
         </thead>
 
         <tbody>
+        <tr th:if="${users.empty}">
+            <td colspan="3">No users</td>
+        </tr>
+
         <tr th:each="tempUser : ${users}">
 
             <td th:text="${tempUser.firstName}"></td>

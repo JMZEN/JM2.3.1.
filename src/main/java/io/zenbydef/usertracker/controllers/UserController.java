@@ -18,45 +18,38 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/list")
     public ModelAndView listUsers() {
         List<User> userList = userService.getUsers();
-
-        ModelAndView modelAndView = new ModelAndView("users-table");
-        modelAndView.addObject("usersForTable", userList);
-        return modelAndView;
+        return new ModelAndView("users-table", "usersForTable", userList);
     }
 
     @GetMapping("/adduser")
     public ModelAndView addUser() {
-        User user = new User();
-        ModelAndView modelAndView = new ModelAndView("user-form");
-        modelAndView.addObject("user", user);
-        return modelAndView;
+        return new ModelAndView("user-form", "user", new User());
     }
 
     @PostMapping("/saveuser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public ModelAndView saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
-        return "redirect:/users/list";
+        return new ModelAndView("redirect:/users/list");
     }
 
     @PostMapping("/updateuser")
     public ModelAndView showFormForUpdate(@RequestParam("userId") int userId) {
-        User user = userService.getUserById(userId);
-
-        ModelAndView modelAndView = new ModelAndView("user-form");
-        modelAndView.addObject("user", user);
-        return modelAndView;
+        return new ModelAndView("user-form", "user", userService.getUserById(userId));
     }
 
     @PostMapping("/deleteuser")
-    public String deleteUser(@RequestParam("userId") int userId) {
+    public ModelAndView deleteUser(@RequestParam("userId") int userId) {
         userService.deleteUser(userId);
-        return "redirect:/users/list";
+        return new ModelAndView("redirect:/users/list");
     }
 
     @GetMapping("/searchuser")
@@ -67,8 +60,6 @@ public class UserController {
         } else {
             userList = userService.searchUsers(theSearchName);
         }
-        ModelAndView modelAndView = new ModelAndView("user-search-table");
-        modelAndView.addObject("users", userList);
-        return modelAndView;
+        return new ModelAndView("user-search-table", "users", userList);
     }
 }
