@@ -44,7 +44,8 @@ public class UserDaoImpl implements UserDao {
         if (theSearchName != null) {
             userQuery = entityManager.createQuery("select user from users_db as user " +
                             "where lower(user.firstName) like :theUserName or " +
-                            "lower(user.lastName) like :theUserName order by user.lastName",
+                            "lower(user.lastName) like :theUserName or " + "lower(user.login) like :theUserName " +
+                            "order by user.lastName",
                     User.class);
             userQuery.setParameter("theUserName", '%' + theSearchName.toLowerCase() + '%');
         } else {
