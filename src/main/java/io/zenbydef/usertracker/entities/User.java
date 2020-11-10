@@ -8,8 +8,16 @@ import javax.persistence.*;
 @Table
 @Component
 @Entity(name = "users_db")
+@NamedQueries({
+        @NamedQuery(name = "User.getUsers",
+                query = "select user from users_db as user order by user.lastName"),
+        @NamedQuery(name = "User.findUserByName",
+                query = "select user from users_db as user " +
+                        "where lower(user.firstName) like :theUserName or " +
+                        "lower(user.lastName) like :theUserName or " +
+                        "lower(user.login) like :theUserName " +
+                        "order by user.lastName")})
 public class User {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

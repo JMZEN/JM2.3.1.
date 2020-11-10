@@ -3,7 +3,6 @@ package io.zenbydef.usertracker.service;
 import io.zenbydef.usertracker.dao.UserDao;
 import io.zenbydef.usertracker.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

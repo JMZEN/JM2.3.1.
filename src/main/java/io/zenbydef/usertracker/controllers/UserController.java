@@ -17,7 +17,6 @@ import java.util.List;
 @Transactional
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -54,12 +53,7 @@ public class UserController {
 
     @GetMapping("/searchuser")
     public ModelAndView searchUser(@RequestParam("theSearchName") String theSearchName) {
-        List<User> userList;
-        if (theSearchName == null) {
-            userList = new ArrayList<>();
-        } else {
-            userList = userService.searchUsers(theSearchName);
-        }
+        List<User> userList = theSearchName == null ? new ArrayList<>() : userService.searchUsers(theSearchName);
         return new ModelAndView("user-search-table", "users", userList);
     }
 }

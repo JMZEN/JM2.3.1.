@@ -25,25 +25,15 @@ import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan("io")
 @PropertySource({"classpath:persistence-mysql.properties"})
 @EnableTransactionManagement
-public class UserWebTrackerConfig implements WebMvcConfigurer {
-    private final ApplicationContext applicationContext;
+public class PersistenceConfig implements WebMvcConfigurer {
+    private final Environment env;
 
-    public UserWebTrackerConfig(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public PersistenceConfig(Environment env) {
+        this.env = env;
     }
-
-    @Autowired
-    private Environment env;
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
     @Bean
     public DataSource dataSource() {
@@ -59,11 +49,10 @@ public class UserWebTrackerConfig implements WebMvcConfigurer {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
                 new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
+        entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(env.getProperty("jpa.packagesToScan"));
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactoryBean.setJpaProperties(getProperties());
-
         return entityManagerFactoryBean;
     }
 
@@ -78,40 +67,12 @@ public class UserWebTrackerConfig implements WebMvcConfigurer {
     @Bean
     public JpaTransactionManager jpaTransactionManager() {
         JpaTransactionManager tx = new JpaTransactionManager();
-        tx.setEntityManagerFactory(entityManagerFactory.getObject()); // уточнить
+        tx.setEntityManagerFactory(entityManagerFactory().getObject());
         return tx;
     }
 
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    @Bean
-    public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setPrefix("/WEB-INF/pages/");
-        templateResolver.setSuffix(".html");
-        return templateResolver;
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setEnableSpringELCompiler(true);
-        return templateEngine;
-    }
-
-
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine());
-        resolver.setCharacterEncoding("UTF-8");
-        resolver.setContentType("text/html; charset=UTF-8");
-        registry.viewResolver(resolver);
     }
 }

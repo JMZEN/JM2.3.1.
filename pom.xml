@@ -14,7 +14,7 @@
     <properties>
         <sprinframework.version>5.2.8.RELEASE</sprinframework.version>
         <hibernate.version>5.4.22.Final</hibernate.version>
-        <mysql.connector.version>8.0.21</mysql.connector.version>
+        <mysql.connector.version>8.0.22</mysql.connector.version>
 
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>

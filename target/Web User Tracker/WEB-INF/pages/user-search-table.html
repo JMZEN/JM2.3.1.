@@ -31,15 +31,13 @@
 
         <tbody>
         <tr th:if="${users.empty}">
-            <td colspan="3">No users</td>
+            <td colspan="4">No users</td>
         </tr>
 
         <tr th:each="tempUser : ${users}">
-
             <td th:text="${tempUser.firstName}"></td>
             <td th:text="${tempUser.lastName}"></td>
             <td th:text="${tempUser.login}"></td>
-
             <td>
                 <div class="row">
                     <div class="col-small">
@@ -67,7 +65,6 @@
         <p>
             No users found. Please try again:
         </p>
-
 
         <form action="#"
               th:action="@{/users/searchuser}"
